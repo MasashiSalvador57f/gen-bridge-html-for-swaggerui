@@ -4,6 +4,7 @@ import (
 	"flag"
 	"html/template"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -11,6 +12,8 @@ var (
 	repo        = flag.String("repo", "", "repository name")
 	branchesStr = flag.String("branches", "", "branches")
 )
+
+var regSp = regexp.MustCompile(`\s`)
 
 func main() {
 	flag.Parse()
@@ -43,9 +46,12 @@ func main() {
   </body>
 </html>
 `
-	branches := strings.Split(*branchesStr, "\n")
-	for i, b := range branches {
-		branches[i] = strings.Replace(b, " ", "", -1)
+	tmpBranches := regSp.Split(*branchesStr, -1)
+	branches := make([]string, 0, 0)
+	for _, b := range tmpBranches {
+		if len(b) > 0 {
+			branches = append(branches, strings.Replace(b, " ", "", -1))
+		}
 	}
 
 	t := template.New("swagger ui template")
