@@ -4,6 +4,7 @@ import (
 	"flag"
 	"html/template"
 	"os"
+	"strings"
 )
 
 var (
@@ -42,6 +43,10 @@ func main() {
   </body>
 </html>
 `
+	branches := strings.Split(*branchesStr, "\n")
+	for i, b := range branches {
+		branches[i] = strings.Replace(b, " ", "", -1)
+	}
 
 	t := template.New("swagger ui template")
 	t, err := t.Parse(htmlBase)
@@ -53,8 +58,7 @@ func main() {
 		Repo     string
 		Branches []string
 	}{
-		Repo: "hoge",
-		Branches: []string{"a", "b",
-			"c/d"},
+		Repo:     *repo,
+		Branches: branches,
 	})
 }
