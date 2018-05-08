@@ -35,7 +35,7 @@ func main() {
   </head>
   <body>
     <div class="container">
-		<h1>API List for {{- .Repo -}}</h1>
+		<h1>API List for {{ .Repo -}}</h1>
 		{{ $r := .Repo -}}
 		<ul>
 			{{ range .Branches -}}
